@@ -75,6 +75,7 @@ function handleButtonPressed(button_pressed) {
             current_op = button_pressed;
             current_add_op = current_op;
             restart_num_entry = true;
+            equal_button_pressed = false;
             break;
         case '*':
         case '/':
@@ -84,6 +85,7 @@ function handleButtonPressed(button_pressed) {
             } else {
                 first_multiplier = operate(current_op, first_multiplier, display_value);
             }
+            equal_button_pressed = false;
             restart_num_entry = true;
             break;
         case '=':
@@ -95,6 +97,7 @@ function handleButtonPressed(button_pressed) {
             }
             if (first_num == null || (first_num != null && first_multiplier == null)) {
                 if (first_multiplier != null) {
+
                     res = operate(current_op, first_multiplier, display_value);
                     document.getElementsByClassName("display_box")[0].textContent = truncateNumber(res, LENGTH_OF_DISPLAY);
                 } else {
@@ -106,10 +109,12 @@ function handleButtonPressed(button_pressed) {
                 res = operate(current_add_op, first_num, operate(current_op, first_multiplier, display_value));
                 document.getElementsByClassName("display_box")[0].textContent = truncateNumber(res, LENGTH_OF_DISPLAY);
             }
-            first_num = res;
+            first_num = null;
             add_op_show_current_sum = false;
             restart_num_entry = true;
             equal_button_pressed = true;
+            first_multiplier = null;
+            display_value = truncateNumber(parseFloat(res), LENGTH_OF_DISPLAY);
             break;
         case 'BKSP':
             if (!restart_num_entry) {
